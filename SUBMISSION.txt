@@ -1,0 +1,19 @@
+SUBMISSION CHECKLIST (Part 1: Website)
+
+1) GitHub Pages link (paste after you publish):
+   https://<your-username>.github.io/<your-repo>/
+
+2) Styling & Customizations implemented:
+   - Custom font stack: Inter with variable weights (400/600/800).
+   - Color scheme via CSS variables (backgrounds, text, links).
+   - Layout system using responsive grid for hero section and card components (custom margins, padding, rounded corners, and shadows).
+   - Sticky navigation bar with hover states and active page state.
+
+3) Pages included:
+   - index.html (Home): heading, 200+ word intro, image, contact section with email/socials, navigation.
+   - interests.html (Second page): 200+ words, image, list, smaller subhead, navigation.
+
+4) What to submit:
+   - Upload the whole 'website' folder to a public GitHub repository.
+   - Enable GitHub Pages.
+   - Submit the live link to Gradescope and this .txt file describing your customizations.

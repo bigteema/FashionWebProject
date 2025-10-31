@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tima | Home</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a href="index.html" class="brand">Tima</a>
+      <div class="nav-links">
+        <a href="index.html" aria-current="page">Home</a>
+        <a href="interests.html">Interests</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section class="hero">
+      <img src="assets/cover.svg" alt="Abstract cover" class="hero-img" />
+      <div class="hero-text">
+        <h1>Welcome to My Website</h1>
+        <p>
+          Hi, I am Tima, a Data Science and Economics student at Northeastern University.
+          I care about thoughtful analytics, creative problem solving, and building tools that make people’s lives easier.
+          This site is a quick intro to who I am and what I like to explore. I am using this project to practice HTML, CSS, and deployment skills while sharing a bit about my academic interests and hobbies.
+        </p>
+        <p>
+          On this site you will see a short collection of topics I care about, from data visualization and modeling to fashion and design.
+          I enjoy blending technical work with creative thinking. I am interested in clean visual storytelling, reproducible analysis, and practical applications of machine learning.
+          When I am not doing school work, I like thrifting, making dashboards for fun projects, and testing new recipes with friends. 
+          I hope you enjoy browsing and find something that sparks your curiosity.
+        </p>
+      </div>
+    </section>
+
+    <section id="contact" class="card">
+      <h2>Contact</h2>
+      <p>If you want to connect, here are quick links:</p>
+      <ul>
+        <li>Email: <a href="mailto:sayedeltayeb.f@northeastern.edu">sayedeltayeb.f@northeastern.edu</a></li>
+        <li>Alt Email: <a href="mailto:sayefatima56@gmail.com">sayefatima56@gmail.com</a></li>
+        <li>Instagram: <a href="https://instagram.com/" target="_blank" rel="noopener">instagram.com</a></li>
+        <li>LinkedIn: <a href="https://www.linkedin.com/" target="_blank" rel="noopener">linkedin.com</a></li>
+      </ul>
+      <p class="note">Use the navigation at the top to visit the Interests page.</p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Tima. All rights reserved.</p>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>

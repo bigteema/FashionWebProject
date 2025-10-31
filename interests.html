@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tima | Interests</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a href="index.html" class="brand">Tima</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="interests.html" aria-current="page">Interests</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="card">
+      <h1>Data Stories I Enjoy</h1>
+      <h2 class="subhead">What I am exploring right now</h2>
+      <img src="assets/cover.svg" alt="Abstract decorative banner" class="banner"/>
+
+      <p>
+        I am learning how to communicate with data in a way that feels useful and clear.
+        I like to focus on three parts of a project: gathering high quality data, building transparent models, and designing visuals that help people make decisions.
+        Recently, I have been revisiting fundamentals like feature engineering, baselines, and careful evaluation along with more advanced ideas like prompt engineering and error analysis for NLP.
+      </p>
+      <p>
+        I also like blending this work with topics I enjoy outside of class.
+        For example, I have been tracking fashion trends across social platforms, cleaning and aggregating engagement data, and building small dashboards to understand how tastes change.
+        I am experimenting with reusable components so I can structure projects cleanly and share results with friends.
+        My goal is to produce work that is honest about uncertainty and still practical.
+      </p>
+
+      <h3>Topics on my list</h3>
+      <ul>
+        <li>Visualization layouts that make comparisons easier</li>
+        <li>Fast data wrangling and reliable pipelines</li>
+        <li>Model evaluation with human centered error checks</li>
+        <li>Lightweight dashboards for non technical audiences</li>
+      </ul>
+    </article>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Tima. All rights reserved.</p>
+  </footer>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
