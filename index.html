@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tima | Archival Fashion</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tima | Archival Fashion + Data</title>
+  <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -21,33 +20,43 @@
     </nav>
   </header>
 
-  <main class="wrap">
-    <!-- hero section with photo and intro -->
+  <main class="container">
     <section class="hero">
       <img src="assets/websitephoto.jpg" alt="Tima wearing a pink hat inside a boutique" class="hero-img">
-      <div>
+      <div class="hero-text">
         <h1>Welcome to My Archival Fashion Space</h1>
         <p>
-          Hi, I’m Tima, a senior at Northeastern University studying Data Science and Economics.
+          Hi! I’m Tima, a senior at Northeastern University studying Data Science and Economics.
           I love archival fashion, sourcing, reselling, and authenticating vintage designer pieces.
           I study how construction, materials, and design details tell stories about their eras.
-          This site mixes my academic side with my creative side.
+          This site mixes my academic side with my creative side :)
         </p>
         <p>
           You’ll find an Archive Guide about authenticating Chanel, Balenciaga, and Jean Paul Gaultier,
-          plus a Curations page with my favorite runway pieces and playlists I made to match the vibe.
-          My goal is to show how data, design, and culture overlap.
+          and other vintage designer brands, plus a Curations page with my favorite runway pieces and playlists 
+          I made to match the vibe. My goal is to show how data, design, and culture overlap.
         </p>
-        <span class="badge">Archival Fashion • Data • Creativity</span>
+        <p>
+          Beyond collecting and researching, I like building simple systems that make the hunt easier,
+          like checklists for serial codes, quick hardware guides, and reference boards for colorways.
+          I also enjoy writing short notes about why a piece feels special, since story and context
+          matter as much as materials. This site is my way of keeping everything in one place while
+          sharing the process with anyone who loves archival fashion too.
+        </p>
+        <div class="tags">
+          <span>Archival Fashion</span>
+          <span>Data</span>
+          <span>Creativity</span>
+        </div>
       </div>
     </section>
 
-    <!-- short section about projects -->
     <section class="card">
       <h2>About + Recent Projects</h2>
       <p>
-        I work on data projects that connect creativity and analytics.
-        My favorite ones involve sentiment analysis, visualization, and storytelling.
+        I also work on data projects that connect creativity and analytics. My favorite ones involve
+        sentiment analysis, visualization, and storytelling. These specific projects are related to what 
+        I study in school. Mostly relating to financial sentiments and risk analysis. 
       </p>
       <ul>
         <li>Client Sentiment Framework analyzing mood shifts in finance news.</li>
@@ -56,8 +65,7 @@
       </ul>
     </section>
 
-    <!-- contact section -->
-    <section id="contact" class="card">
+    <section class="card" id="contact">
       <h2>Contact</h2>
       <p>Feel free to reach out if you want to talk about fashion, analytics, or creative work.</p>
       <ul>
@@ -71,8 +79,9 @@
   <footer class="site-footer">
     <p>&copy; <span id="year"></span> Tima. All rights reserved.</p>
   </footer>
+
   <script>
-    // show the current year in footer
+    // updating the footer year automatically
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
