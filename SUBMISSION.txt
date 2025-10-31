@@ -1,19 +1,7 @@
-SUBMISSION CHECKLIST (Part 1: Website)
+Website Description and Styling Customizations
 
-1) GitHub Pages link (paste after you publish):
-   https://<your-username>.github.io/<your-repo>/
+My website combines my interest in archival fashion with my background in Data Science and Economics at Northeastern University. I wanted it to feel both creative and approachable, showing my personal style while also being informative. The site has three main pages: a homepage that introduces who I am, an archival authentication guide that explains how I research and verify vintage designer pieces, and a curations gallery that features runway looks and a few Spotify playlists I added just for fun to make the page more interactive.
 
-2) Styling & Customizations implemented:
-   - Custom font stack: Inter with variable weights (400/600/800).
-   - Color scheme via CSS variables (backgrounds, text, links).
-   - Layout system using responsive grid for hero section and card components (custom margins, padding, rounded corners, and shadows).
-   - Sticky navigation bar with hover states and active page state.
+For styling, I created a dark color theme with a muted green accent to give the site a modern, cohesive look. I used the Inter font for clean typography and built the layouts using flexbox and CSS grid so the site adjusts well on different screen sizes. Rounded cards, soft shadows, and consistent spacing help keep everything easy to read and visually balanced. I also added a sticky header with hover and active-state link effects, so it’s easy to navigate between pages.
 
-3) Pages included:
-   - index.html (Home): heading, 200+ word intro, image, contact section with email/socials, navigation.
-   - interests.html (Second page): 200+ words, image, list, smaller subhead, navigation.
-
-4) What to submit:
-   - Upload the whole 'website' folder to a public GitHub repository.
-   - Enable GitHub Pages.
-   - Submit the live link to Gradescope and this .txt file describing your customizations.
+I wanted the website to include features that make it interesting to explore, not just a standard portfolio. The playlists bring in a more casual, personal element, and the gallery showcases the visual side of fashion that I love. Together, the styling choices and layout create a site that feels organized, polished, and reflective of both my creativity and attention to detail.
