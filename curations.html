@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Tima | Curations</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header class="site-header">
+    <nav class="nav wrap">
+      <a href="index.html" class="brand">Tima</a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="archive-guide.html">Archive Guide</a>
+        <a href="curations.html" aria-current="page">Curations</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+    <article class="card">
+      <h1>Curated Pieces</h1>
+      <h2 class="subhead">Favorites with sources</h2>
+      <p>
+        These are a few archival looks and collections that inspire me.
+        Each image links back to its original Vogue Runway page.
+      </p>
+
+      <!-- gallery of dior and chanel -->
+      <div class="gallery">
+        <a class="tile" href="https://www.vogue.com/fashion-shows/spring-2002-couture/christian-dior" target="_blank" rel="noopener">
+          <img src="assets/dior-galliano-2002.jpg" alt="Christian Dior by John Galliano, Spring 2002 couture look">
+          <span class="caption">Christian Dior by John Galliano, Spring 2002 Couture (Vogue Runway)</span>
+        </a>
+
+        <a class="tile" href="https://www.vogue.com/fashion-shows/fall-2001-ready-to-wear/christian-dior" target="_blank" rel="noopener">
+          <img src="assets/dior-fall-2001.jpg" alt="Christian Dior by John Galliano, Fall 2001 ready to wear look">
+          <span class="caption">Christian Dior by John Galliano, Fall 2001 Ready To Wear (Vogue Runway)</span>
+        </a>
+
+        <a class="tile" href="https://www.vogue.com/fashion-shows/resort-2026/chanel" target="_blank" rel="noopener">
+          <img src="assets/chanel-cruise-2026.jpg" alt="Chanel Cruise 2026 runway look">
+          <span class="caption">Chanel Cruise 2026 (Vogue Runway)</span>
+        </a>
+
+        <a class="tile" href="https://www.vogue.com/fashion-shows/resort-2013/chanel" target="_blank" rel="noopener">
+          <img src="assets/chanel-cruise-2013.jpg" alt="Chanel Cruise 2013 detail">
+          <span class="caption">Chanel Cruise 2013 (Vogue Runway)</span>
+        </a>
+      </div>
+    </article>
+
+    <section class="card">
+      <h2>Playlists I Love</h2>
+      <p>Music I create, source, and style to. These playlists match my creative mood.</p>
+      <div class="playlist-grid">
+        <iframe style="border-radius:12px"
+          src="https://open.spotify.com/embed/playlist/4kPjNV60jKaJVDDvPsAFkc?utm_source=generator"
+          width="100%" height="352" frameBorder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"></iframe>
+
+        <iframe style="border-radius:12px"
+          src="https://open.spotify.com/embed/playlist/18zF1aa1uUC1Umf9vLMgHV?utm_source=generator"
+          width="100%" height="352" frameBorder="0"
+          allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+          loading="lazy"></iframe>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Tima. All rights reserved.</p>
+  </footer>
+  <script>
+    // updates the footer year
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
