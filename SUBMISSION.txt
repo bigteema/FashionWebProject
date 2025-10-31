@@ -1,5 +1,7 @@
 Website Description and Styling Customizations
 
+Website Hyperlink: https://bigteema.github.io/FashionWebProject/index.html
+
 My website combines my interest in archival fashion with my background in Data Science and Economics at Northeastern University. I wanted it to feel both creative and approachable, showing my personal style while also being informative. The site has three main pages: a homepage that introduces who I am, an archival authentication guide that explains how I research and verify vintage designer pieces, and a curations gallery that features runway looks and a few Spotify playlists I added just for fun to make the page more interactive.
 
 For styling, I created a dark color theme with a muted green accent to give the site a modern, cohesive look. I used the Inter font for clean typography and built the layouts using flexbox and CSS grid so the site adjusts well on different screen sizes. Rounded cards, soft shadows, and consistent spacing help keep everything easy to read and visually balanced. I also added a sticky header with hover and active-state link effects, so it’s easy to navigate between pages.
