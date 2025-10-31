@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Tima | Curations</title>
-  <link rel="stylesheet" href="styles.css"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Curations | Tima</title>
+  <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
 <body>
@@ -24,13 +23,11 @@
   <main class="container">
     <article class="card">
       <h1>Curated Pieces</h1>
-      <h2 class="subhead">Favorites with sources</h2>
+      <h2 class="subhead">Favorites with Sources</h2>
       <p>
-        These are a few archival looks and collections that inspire me.
-        Each image links back to its original Vogue Runway page.
+        These are a few archival looks and collections that inspire me. Each image links back to its original Vogue Runway page.
       </p>
 
-      <!-- gallery of dior and chanel -->
       <div class="gallery">
         <a class="tile" href="https://www.vogue.com/fashion-shows/spring-2002-couture/christian-dior" target="_blank" rel="noopener">
           <img src="assets/dior-galliano-2002.jpg" alt="Christian Dior by John Galliano, Spring 2002 couture look">
@@ -56,7 +53,9 @@
 
     <section class="card">
       <h2>Playlists I Love</h2>
-      <p>Music I create, source, and style to. These playlists match my creative mood.</p>
+      <p>
+        Music I create, source, and style to. These playlists match my creative mood.
+      </p>
       <div class="playlist-grid">
         <iframe style="border-radius:12px"
           src="https://open.spotify.com/embed/playlist/4kPjNV60jKaJVDDvPsAFkc?utm_source=generator"
@@ -76,8 +75,8 @@
   <footer class="site-footer">
     <p>&copy; <span id="year"></span> Tima. All rights reserved.</p>
   </footer>
+
   <script>
-    // updates the footer year
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
