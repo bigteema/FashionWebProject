@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects | Tima</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="nav wrap">
+      <a href="index.html" class="brand">
+        <svg viewBox="0 0 220 60">
+          <path d="M10 30 Q40 5 70 30 T130 30 Q160 55 200 30" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <text x="22" y="40" font-size="26" font-family="cursive" fill="currentColor">Tima</text>
+        </svg>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html" aria-current="page">Projects</a>
+        <a href="archive-guide.html">Archive Guide</a>
+        <a href="curations.html">Curations</a>
+        <a href="index.html#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main class="container">
+
+    <section class="card">
+      <h1>Projects</h1>
+      <p>Work that combines data analysis, system design, and visual storytelling.</p>
+    </section>
+
+    <!-- PROJECT 1 -->
+    <section class="card">
+      <h2>Client Sentiment Analysis Framework</h2>
+      <p>
+        A modular NLP workflow built to analyze mood shifts in financial news and
+        user discussions across Bloomberg, Reuters, Reddit, and X. I used custom token
+        filters, sentiment scoring, and cross-platform comparisons to visualize
+        how macroeconomic events influence public tone.
+      </p>
+      <ul>
+        <li>94 percent parsing accuracy through domain-specific text rules</li>
+        <li>Tracked spikes in negative sentiment during Federal Reserve announcements</li>
+        <li>Built 15+ visualizations comparing platform trends</li>
+      </ul>
+    </section>
+
+    <!-- PROJECT 2 -->
+    <section class="card">
+      <h2>Portfolio Stress Testing + Risk Simulation</h2>
+      <p>
+        A Python-based tool that simulates how client portfolios react to interest rate
+        shocks, inflation surges, and market downturns. I modeled volatility shifts across
+        multiple asset classes and visualized performance under stress.
+      </p>
+      <ul>
+        <li>Modeled 5 client risk profiles under real macroeconomic conditions</li>
+        <li>85 percent accuracy in value projections</li>
+        <li>Generated dashboards showing drawdowns and volatility changes</li>
+      </ul>
+    </section>
+
+    <!-- PROJECT 3 -->
+    <section class="card">
+      <h2>Rebalancing + Risk Profiling Tool</h2>
+      <p>
+        Automated rebalancing logic for discretionary portfolios, triggering adjustments
+        whenever weights drifted 5 percent from targets. Built simulations across 12 market
+        conditions and visualized risk exposure shifts.
+      </p>
+      <ul>
+        <li>Automated reallocation workflow across three asset classes</li>
+        <li>Created performance charts for Sharpe ratios and risk transitions</li>
+        <li>Combined analytical clarity with visual readability</li>
+      </ul>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <p>&copy; <span id="year"></span> Tima. All rights reserved.</p>
+  </footer>
+
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+</body>
+</html>
