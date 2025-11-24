@@ -3,16 +3,23 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tima | Archival Fashion + Data</title>
+  <title>Tima | Fashion × Data</title>
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
+
 <body>
   <header class="site-header">
     <nav class="nav wrap">
-      <a href="index.html" class="brand">Tima</a>
+      <a href="index.html" class="brand">
+        <svg viewBox="0 0 220 60">
+          <path d="M10 30 Q40 5 70 30 T130 30 Q160 55 200 30" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <text x="22" y="40" font-size="26" font-family="cursive" fill="currentColor">Tima</text>
+        </svg>
+      </a>
       <div class="nav-links">
         <a href="index.html" aria-current="page">Home</a>
+        <a href="projects.html">Projects</a>
         <a href="archive-guide.html">Archive Guide</a>
         <a href="curations.html">Curations</a>
         <a href="#contact">Contact</a>
@@ -21,68 +28,62 @@
   </header>
 
   <main class="container">
+
+    <!-- HERO -->
     <section class="hero">
-      <img src="assets/websitephoto.jpg" alt="Tima wearing a pink hat inside a boutique" class="hero-img">
+      <img src="assets/websitephoto.jpg" alt="Tima" class="hero-img">
       <div class="hero-text">
-        <h1>Welcome to My Archival Fashion Space</h1>
+        <h1>Fashion × Data × Creative Systems</h1>
         <p>
-          Hi! I’m Tima, a senior at Northeastern University studying Data Science and Economics.
-          I love archival fashion, sourcing, reselling, and authenticating vintage designer pieces.
-          I study how construction, materials, and design details tell stories about their eras.
-          This site mixes my academic side with my creative side :)
+          I’m Tima, a Data Science and Economics student who loves blending analytical work
+          with my interest in fashion, design, and digital culture. I study the stories behind
+          archival pieces, but I also build small tools, workflows, and visual systems that help
+          me understand patterns in style, construction, and brand identity.
         </p>
         <p>
-          You’ll find an Archive Guide about authenticating Chanel, Balenciaga, and Jean Paul Gaultier,
-          and other vintage designer brands, plus a Curations page with my favorite runway pieces and playlists 
-          I made to match the vibe. My goal is to show how data, design, and culture overlap.
+          My work sits at the intersection of fashion research, data analysis, and product thinking.
+          Whether I’m analyzing sentiment, modeling risk, or building resources for authentication,
+          I care about clarity, accuracy, and aesthetics. This site is my space to keep everything
+          in one place while exploring how creativity and analytics shape each other.
         </p>
-        <p>
-          Beyond collecting and researching, I like building simple systems that make the hunt easier,
-          like checklists for serial codes, quick hardware guides, and reference boards for colorways.
-          I also enjoy writing short notes about why a piece feels special, since story and context
-          matter as much as materials. This site is my way of keeping everything in one place while
-          sharing the process with anyone who loves archival fashion too.
-        </p>
+
         <div class="tags">
-          <span>Archival Fashion</span>
-          <span>Data</span>
-          <span>Creativity</span>
+          <span>Fashion Research</span>
+          <span>Data Science</span>
+          <span>Creative Tech</span>
         </div>
       </div>
     </section>
 
+    <!-- PROJECT PREVIEW -->
     <section class="card">
-      <h2>About + Recent Projects</h2>
-      <p>
-        I also work on data projects that connect creativity and analytics. My favorite ones involve
-        sentiment analysis, visualization, and storytelling. These specific projects are related to what 
-        I study in school. Mostly relating to financial sentiments and risk analysis. 
-      </p>
+      <h2>Recent Work</h2>
+      <p>These are a few projects where I combine analytics, product thinking, and visual storytelling.</p>
       <ul>
-        <li>Client Sentiment Framework analyzing mood shifts in finance news.</li>
-        <li>Portfolio risk tools showing performance and stress tests visually.</li>
-        <li>Rebalancing simulator that makes data insights easier to read.</li>
+        <li>Sentiment Analysis Framework for financial news</li>
+        <li>Portfolio Risk Simulation + Stress Testing</li>
+        <li>Rebalancing Tool for asset allocations</li>
       </ul>
+      <p><a href="projects.html" style="color: var(--lavender); text-decoration: none;">See full projects →</a></p>
     </section>
 
+    <!-- CONTACT -->
     <section class="card" id="contact">
       <h2>Contact</h2>
       <p>Feel free to reach out if you want to talk about fashion, analytics, or creative work.</p>
       <ul>
         <li>Email: <a href="mailto:sayedeltayeb.f@northeastern.edu">sayedeltayeb.f@northeastern.edu</a></li>
-        <li>Alt Email: <a href="mailto:sayefatima56@gmail.com">sayefatima56@gmail.com</a></li>
+        <li>Alt Email: <a href="mailto:sayedfatima56@gmail.com">sayedfatima56@gmail.com</a></li>
         <li>Instagram: <a href="https://instagram.com/timasayedeltayeb" target="_blank">@timasayedeltayeb</a></li>
       </ul>
     </section>
+
   </main>
 
   <footer class="site-footer">
     <p>&copy; <span id="year"></span> Tima. All rights reserved.</p>
   </footer>
 
-  <script>
-    // updating the footer year automatically
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
