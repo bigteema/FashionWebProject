@@ -1,10 +1,14 @@
-/* base colors + typography */
+/* ===========================
+   COLOR SYSTEM + TYPOGRAPHY
+   =========================== */
+
 :root {
-  --bg: #0f1117;
-  --card: #171a22;
-  --text: #e7e9f0;
-  --muted: #2a2f3a;
-  --accent: #57e39b;
+  --bg: #0f0f12;
+  --card: #1a1a21;
+  --text: #ecebf3;
+  --muted: #2c2c33;
+  --lavender: #b9a7ff;
+  --lavender-soft: #cfc4ff;
 }
 
 body {
@@ -13,10 +17,13 @@ body {
   color: var(--text);
   margin: 0;
   padding: 0;
-  line-height: 1.6;
+  line-height: 1.65;
 }
 
-/* layout wrappers */
+/* ===========================
+   GLOBAL LAYOUT
+   =========================== */
+
 .container {
   width: 90%;
   max-width: 950px;
@@ -26,20 +33,25 @@ body {
 
 .card {
   background-color: var(--card);
-  padding: 1.6rem 2rem;
-  border-radius: 16px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-  margin-bottom: 2rem;
+  padding: 1.8rem 2rem;
+  border-radius: 18px;
+  border: 1px solid rgba(185, 167, 255, 0.12);
+  box-shadow: 0 0 25px rgba(185, 167, 255, 0.12);
+  margin-bottom: 2.4rem;
+  backdrop-filter: blur(4px);
 }
 
-/* header + navigation */
+/* ===========================
+   NAVIGATION + LOGO
+   =========================== */
+
 .site-header {
-  backdrop-filter: blur(10px);
-  background-color: rgba(23, 26, 34, 0.92);
+  backdrop-filter: blur(12px);
+  background-color: rgba(26, 26, 33, 0.85);
   position: sticky;
   top: 0;
-  z-index: 10;
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+  z-index: 20;
+  border-bottom: 1px solid rgba(185, 167, 255, 0.14);
 }
 
 .nav.wrap {
@@ -49,159 +61,171 @@ body {
   padding: 1rem 2rem;
 }
 
+/* cursive SVG logo */
 .brand {
-  font-weight: 800;
-  font-size: 1.3rem;
-  color: var(--text);
-  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+
+.brand svg {
+  height: 34px;
+  width: auto;
+  fill: var(--lavender);
 }
 
 .nav-links a {
   color: var(--text);
   text-decoration: none;
-  margin-left: 1.5rem;
+  margin-left: 1.6rem;
   font-weight: 500;
   transition: color 0.2s ease;
 }
 
 .nav-links a:hover {
-  color: var(--accent);
+  color: var(--lavender);
 }
 
 .nav-links a[aria-current="page"] {
-  color: var(--accent);
+  color: var(--lavender);
   font-weight: 700;
 }
 
-/* hero section */
+/* ===========================
+   HEADINGS
+   =========================== */
+
+h1, h2, h3 {
+  color: var(--text);
+  font-weight: 700;
+  margin-top: 0;
+  letter-spacing: -0.5px;
+}
+
+.subhead {
+  color: var(--lavender-soft);
+  font-weight: 600;
+  margin-bottom: 0.8rem;
+}
+
+/* ===========================
+   HERO SECTION
+   =========================== */
+
 .hero {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 2rem;
+  gap: 2.2rem;
   background-color: var(--card);
-  border-radius: 16px;
-  padding: 2rem;
+  border-radius: 20px;
+  padding: 2.4rem;
+  border: 1px solid rgba(185, 167, 255, 0.15);
 }
 
 .hero-img {
   width: 260px;
   height: auto;
-  border-radius: 16px;
-  border: none;
+  border-radius: 18px;
   object-fit: cover;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 20px rgba(185, 167, 255, 0.18);
 }
 
 .hero-text {
   flex: 1;
-  min-width: 250px;
-}
-
-h1, h2, h3 {
+  min-width: 260px;
   color: var(--text);
-  margin-top: 0;
 }
 
-.subhead {
-  color: var(--accent);
-  font-weight: 600;
-}
+/* ===========================
+   GALLERY
+   =========================== */
 
-.tags span {
-  background-color: var(--accent);
-  color: #000;
-  font-weight: 600;
-  border-radius: 20px;
-  padding: 4px 12px;
-  margin-right: 6px;
-  font-size: 0.9rem;
-}
-
-/* banner image */
-.banner {
-  width: 100%;
-  border-radius: 12px;
-  border: none;
-  margin: 10px 0 14px;
-  object-fit: cover;
-  max-height: 380px;
-  animation: fadeIn 1.2s ease-in-out;
-}
-
-/* gallery grid */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1.5rem;
-  margin-top: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.6rem;
+  margin-top: 1.8rem;
 }
 
 .tile {
   text-decoration: none;
   color: var(--text);
-  background-color: var(--card);
-  border-radius: 12px;
+  background-color: var(--muted);
+  border-radius: 14px;
   overflow: hidden;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid rgba(185, 167, 255, 0.18);
+  transition: all 0.25s ease;
 }
 
 .tile img {
   width: 100%;
   display: block;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s ease;
 }
 
 .tile:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+  transform: translateY(-5px);
+  box-shadow: 0 6px 30px rgba(185, 167, 255, 0.25);
+  border-color: var(--lavender-soft);
 }
 
 .tile:hover img {
-  opacity: 0.85;
+  opacity: 0.82;
 }
 
 .caption {
-  display: block;
-  padding: 0.8rem;
+  padding: 0.9rem;
   font-size: 0.9rem;
-  color: #bfc3ce;
+  color: var(--lavender-soft);
 }
 
-/* list styles */
+/* ===========================
+   LISTS
+   =========================== */
+
 ul {
   list-style: disc inside;
-  padding-left: 1rem;
 }
 
 li {
-  margin: 0.3rem 0;
+  margin: 0.45rem 0;
 }
 
-/* playlist grid */
+/* ===========================
+   PLAYLIST GRID
+   =========================== */
+
 .playlist-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
-  gap: 1.5rem;
+  gap: 1.6rem;
 }
 
-/* footer styles */
+/* ===========================
+   FOOTER
+   =========================== */
+
 .site-footer {
   text-align: center;
-  padding: 2rem 0;
-  color: #a9acb3;
+  padding: 2.2rem 0;
+  color: var(--lavender-soft);
   background-color: var(--card);
-  border-radius: 16px 16px 0 0;
-  box-shadow: 0 -3px 12px rgba(0, 0, 0, 0.4);
+  border-top: 1px solid rgba(185, 167, 255, 0.12);
 }
 
-/* animations */
+/* ===========================
+   ANIMATIONS
+   =========================== */
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* responsive tweaks */
+/* ===========================
+   RESPONSIVE
+   =========================== */
+
 @media (max-width: 700px) {
   .hero {
     flex-direction: column;
