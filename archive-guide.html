@@ -7,15 +7,21 @@
   <link rel="stylesheet" href="styles.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
 </head>
+
 <body>
   <header class="site-header">
     <nav class="nav wrap">
-      <a href="index.html" class="brand">Tima</a>
+      <a href="index.html" class="brand">
+        <svg viewBox="0 0 220 60">
+          <path d="M10 30 Q40 5 70 30 T130 30 Q160 55 200 30" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <text x="22" y="40" font-size="26" font-family="cursive" fill="currentColor">Tima</text>
+        </svg>
+      </a>
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="archive-guide.html" aria-current="page">Archive Guide</a>
         <a href="curations.html">Curations</a>
-        <a href="index.html#contact">Contact</a>
+        <a href="projects.html">Projects</a>
       </div>
     </nav>
   </header>
@@ -23,57 +29,44 @@
   <main class="container">
     <article class="card">
       <h2>Archival Fashion Authentication Guide</h2>
-      <h3 class="subhead">How I Check and Verify Vintage Pieces</h3>
+      <h3 class="subhead">How I Study, Identify, and Verify Vintage Pieces</h3>
 
-      <img src="assets/shoe-collection.jpg" alt="Vintage Heel collection" class="banner">
+      <img src="assets/shoe-collection.jpg" alt="Vintage heels" class="banner">
 
       <p>
-        This is how I research and evaluate archival items when sourcing or buying secondhand.
-        I start by studying runway photos, campaign imagery, and lookbooks from the same era
-        to confirm that a design, fabric, and colorway actually existed in that season.
-        From there, I compare small construction details such as stitching, fabric texture,
-        label typography, and hardware engravings. I always check serial numbers, zipper brands,
-        and interior stamps for consistency with the year and model.
+        When I evaluate archival pieces, I start by matching them to runway references,
+        campaign images, and lookbooks to confirm the design existed that season. From there,
+        I study construction details like stitching, hardware, typography, fabric texture, and
+        interior labels.
       </p>
 
       <p>
-        I use resources from online fashion archives, resale databases, and subreddits where
-        experienced authenticators share legit checks. When possible, I also verify listings
-        against other confirmed authentic pieces to spot inconsistencies in shape, weight,
-        and finish. My process is careful because archival fashion carries both creative and
-        historical value, so accuracy matters.
+        I cross-reference multiple resale platforms, collector databases, and experienced
+        authenticators. Small details like zipper brand, engraving depth, serial codes, and
+        label formatting matter because they reveal whether a piece matches its documented era.
       </p>
 
       <h3>Quick Checklist</h3>
       <ul>
-        <li>Matches an official runway or lookbook reference</li>
-        <li>Correct label placement, font, and stitching pattern</li>
-        <li>Serial number and hardware engravings match the era</li>
-        <li>Authentic zipper brand and fabric composition</li>
-        <li>Clean, even stitching and secure backstitching</li>
-        <li>Clear, natural-light seller photos showing key details</li>
-        <li>Cross-checked with legit checks and verified sales records</li>
+        <li>Matches official runway or lookbook reference</li>
+        <li>Correct label placement and typography</li>
+        <li>Serial numbers + engravings match the era</li>
+        <li>Authentic zipper brand + hardware material</li>
+        <li>Even stitching and construction consistency</li>
+        <li>Natural-light images of small details</li>
+        <li>Cross-checked with verified authentic pieces</li>
       </ul>
 
       <h3>Brand Notes</h3>
       <ul>
-        <li><strong>Chanel:</strong> Turnlock engraving depth, serial sticker alignment, and quilting symmetry across seams.</li>
-        <li><strong>Balenciaga:</strong> Tag era markers, zipper brand, and correct font for metal plaques from the early 2000s.</li>
-        <li><strong>Jean Paul Gaultier:</strong> Print clarity on mesh, tag font style, and placement of size labels by collection.</li>
+        <li><strong>Chanel:</strong> Quilting symmetry, serial sticker placement, turnlock engraving depth</li>
+        <li><strong>Balenciaga:</strong> Tag era markers, plaque fonts, zipper brand consistency</li>
+        <li><strong>Jean Paul Gaultier:</strong> Mesh print clarity, tag fonts, label placement</li>
       </ul>
 
       <p>
-        In addition to fashion authentication, I also have a strong interest in financial data
-        analysis and plan to pursue a career in corporate fashion or luxury brand strategy.
-        I hope to merge my analytical background with my passion for creative industries,
-        using data-driven approaches to study trends, brand value, and sustainability.
-      </p>
-
-      <p>
-        In the future, I plan to build a small visual database that uses data science tools
-        to compare label fonts, hardware engravings, and serial codes by year and model.
-        My goal is to make archival authentication more transparent and accessible for
-        collectors and researchers who care about fashion history.
+        I hope to keep expanding this guide with clearer visuals, examples, and a small digital
+        database that compares fonts, hardware, and serial codes across years.
       </p>
     </article>
   </main>
@@ -82,8 +75,6 @@
     <p>&copy; <span id="year"></span> Tima. All rights reserved.</p>
   </footer>
 
-  <script>
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
 </body>
 </html>
