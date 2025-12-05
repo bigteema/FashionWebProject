@@ -11,49 +11,66 @@
 <body>
   <header class="site-header">
     <nav class="nav wrap">
+
+      <!-- BRAND LOGO -->
       <a href="index.html" class="brand">
         <svg viewBox="0 0 220 60">
-          <path d="M10 30 Q40 5 70 30 T130 30 Q160 55 200 30" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
-          <text x="22" y="40" font-size="26" font-family="cursive" fill="currentColor">Tima</text>
+          <path d="M10 30 Q40 5 70 30 T130 30 Q160 55 200 30"
+                stroke="currentColor"
+                stroke-width="4"
+                fill="none"
+                stroke-linecap="round" />
+          <text x="22" y="40"
+                font-size="26"
+                font-family="cursive"
+                fill="currentColor">Tima</text>
         </svg>
       </a>
+
+      <!-- NAVIGATION -->
       <div class="nav-links">
         <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="mbta-project.html">MBTA Case Study</a>
         <a href="archive-guide.html" aria-current="page">Archive Guide</a>
         <a href="curations.html">Curations</a>
-        <a href="projects.html">Projects</a>
+        <a href="index.html#contact">Contact</a>
       </div>
     </nav>
   </header>
 
   <main class="container">
+
     <article class="card">
       <h2>Archival Fashion Authentication Guide</h2>
       <h3 class="subhead">How I Study, Identify, and Verify Vintage Pieces</h3>
 
-      <img src="assets/shoe-collection.jpg" alt="Vintage heels" class="banner">
+      <img src="assets/shoe-collection.jpg"
+           alt="Vintage heels"
+           class="project-img">
 
       <p>
         When I evaluate archival pieces, I start by matching them to runway references,
         campaign images, and lookbooks to confirm the design existed that season. From there,
-        I study construction details like stitching, hardware, typography, fabric texture, and
-        interior labels.
+        I study construction details like stitching, hardware, typography, fabric texture,
+        interior labels, and wear patterns.
       </p>
 
       <p>
         I cross-reference multiple resale platforms, collector databases, and experienced
-        authenticators. Small details like zipper brand, engraving depth, serial codes, and
-        label formatting matter because they reveal whether a piece matches its documented era.
+        authenticators. Small details like zipper brand, engraving depth, serial codes,
+        and label formatting matter because they reveal whether a piece matches its
+        documented era.
       </p>
 
       <h3>Quick Checklist</h3>
       <ul>
         <li>Matches official runway or lookbook reference</li>
         <li>Correct label placement and typography</li>
-        <li>Serial numbers + engravings match the era</li>
-        <li>Authentic zipper brand + hardware material</li>
+        <li>Serial numbers and engravings match the documented era</li>
+        <li>Authentic zipper brand and hardware material</li>
         <li>Even stitching and construction consistency</li>
-        <li>Natural-light images of small details</li>
+        <li>Natural-light images showing all micro-details</li>
         <li>Cross-checked with verified authentic pieces</li>
       </ul>
 
@@ -65,16 +82,20 @@
       </ul>
 
       <p>
-        I hope to keep expanding this guide with clearer visuals, examples, and a small digital
-        database that compares fonts, hardware, and serial codes across years.
+        I plan to expand this guide with clearer visuals and a small digital database that
+        compares fonts, hardware, and serial codes across years to help collectors and
+        researchers identify authentic archival pieces more confidently.
       </p>
     </article>
+
   </main>
 
   <footer class="site-footer">
     <p>&copy; <span id="year"></span> Tima. All rights reserved.</p>
   </footer>
 
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
