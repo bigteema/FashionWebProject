@@ -11,10 +11,18 @@
 <body>
   <header class="site-header">
     <nav class="nav wrap">
-      <a href="index.html" class="brand">Tima</a>
+      <a href="index.html" class="brand">
+        <svg viewBox="0 0 220 60">
+          <path d="M10 30 Q40 5 70 30 T130 30 Q160 55 200 30"
+                stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <text x="22" y="40" font-size="26" font-family="cursive" fill="currentColor">Tima</text>
+        </svg>
+      </a>
+
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="projects.html">Projects</a>
+        <a href="mbta-project.html" aria-current="page">MBTA Case Study</a>
         <a href="archive-guide.html">Archive Guide</a>
         <a href="curations.html">Curations</a>
         <a href="index.html#contact">Contact</a>
@@ -27,122 +35,81 @@
     <article class="card">
       <h1>MBTA Ridership Analysis (2018–2025)</h1>
       <p class="subhead">
-        A multi-layered analysis of Boston’s transit system, exploring systemwide trends, pandemic disruptions, 
-        event-driven ridership spikes, and long-term behavioral shifts.
+        A multi-layered analysis of Boston’s transit system, exploring systemwide trends,
+        pandemic disruptions, event-driven ridership spikes, and long-term behavioral shifts.
       </p>
 
       <section>
         <h2>Project Overview</h2>
         <p>
-          I analyzed over six years of MBTA ridership data to understand how travel patterns in Boston changed across 
-          the pandemic, how major events like Red Sox home games affect station-level demand, and how different lines 
-          contribute to overall system throughput. I created a suite of static and interactive visualizations using 
-          Python and Vega-Lite to uncover patterns in recovery, peak-hour smoothing, and external drivers of ridership.
+          I analyzed over six years of MBTA ridership data to understand how travel patterns
+          changed across the pandemic, how major events like Red Sox home games affect demand,
+          and how different lines contribute to system throughput.
         </p>
       </section>
 
-      <!-- SECTION 1: SYSTEMWIDE PANDEMIC TRENDS -->
       <section>
         <h2>1. Systemwide Trends Across Pandemic Phases</h2>
         <p>
-          This visualization breaks the timeline into three eras: pre-pandemic stability, a dramatic mid-pandemic collapse, 
-          and a gradual but incomplete recovery. Ridership fell by more than 80 percent in early 2020 and has since 
-          stabilized at about 70–80 percent of pre-pandemic levels.
+          This timeline splits into pre-pandemic stability, mid-pandemic collapse,
+          and gradual recovery. Ridership fell more than 80 percent in early 2020 and
+          now sits around 70–80 percent of pre-pandemic levels.
         </p>
-
-        <img src="assets/across_pandemic_ridership.png" alt="Systemwide MBTA ridership across pandemic phases" class="project-img">
+        <img src="assets/across_pandemic_ridership.png" class="project-img">
       </section>
 
-      <!-- SECTION 2: KENMORE AND RED SOX -->
       <section>
-        <h2>2. Event-Driven Demand: Red Sox Home Games at Kenmore Station</h2>
+        <h2>2. Event-Driven Demand: Red Sox Home Games</h2>
         <p>
-          Kenmore Station shows clear, predictable ridership spikes tied to Red Sox home games. During baseball season, 
-          monthly entries increase by 20–45 percent. This demonstrates how entertainment events create strong, 
-          measurable impacts on transit demand.
+          Kenmore Station ridership rises sharply with Red Sox home games. Baseball
+          season months show increases of 20–45 percent.
         </p>
-
-        <img src="assets/kenmore_redsox.png" alt="Kenmore Station entries vs Red Sox home games" class="project-img">
+        <img src="assets/kenmore_redsox.png" class="project-img">
       </section>
 
-      <!-- SECTION 3: BUSIEST STATIONS -->
       <section>
         <h2>3. Station-Level Demand</h2>
-        <p>
-          An interactive ranking of the busiest MBTA stations shows that South Station, Downtown Crossing, 
-          and Harvard carry some of the highest daily gate entries. Red and Orange Line stations dominate the top tiers.
-        </p>
-
         <iframe src="assets/busiest_stations.html" class="project-embed" height="620px"></iframe>
       </section>
 
-      <!-- SECTION 4: LINE-LEVEL RIDERSHIP -->
       <section>
-        <h2>4. Line-Level Ridership Distribution</h2>
-        <p>
-          The Red Line accounts for the largest share of systemwide ridership, followed closely by the Orange Line. 
-          The Green Line is more diffuse due to its branches, while the Blue and Silver Lines form smaller but steady portions of demand.
-        </p>
-
+        <h2>4. Line-Level Ridership</h2>
         <iframe src="assets/line_popularity_2019.html" class="project-embed" height="480px"></iframe>
       </section>
 
-      <!-- SECTION 5: WEATHER SCATTER -->
       <section>
         <h2>5. Weather and Ridership Patterns</h2>
-        <p>
-          Weather conditions play a measurable role in daily travel decisions. Heavy rain reduces ridership at most stations, 
-          and extreme temperatures lead to predictable dips at outdoor-dependent transfer points.
-        </p>
-
         <iframe src="assets/weather_scatter.html" class="project-embed" height="520px"></iframe>
       </section>
 
-      <!-- SECTION 6: HEATMAP -->
       <section>
         <h2>6. Temporal Patterns: Ridership Heatmap</h2>
-        <p>
-          The ridership heatmap highlights the smoothing of peak travel hours post-pandemic. Hybrid work schedules shifted 
-          travel away from rigid rush hours, distributing demand more evenly across the day.
-        </p>
-
         <iframe src="assets/mbta_heatmap_complete.html" class="project-embed" height="650px"></iframe>
       </section>
 
-      <!-- TECHNICAL SECTION -->
       <section>
         <h2>Technical Approach</h2>
         <ul>
-          <li>Processed multi-year ridership datasets and normalized station IDs</li>
-          <li>Calculated monthly and daily averages, rolling windows, and seasonal comparisons</li>
-          <li>Joined rail ridership data with Red Sox home game schedules</li>
-          <li>Designed custom Matplotlib charts with annotations and multi-axis scaling</li>
-          <li>Built Vega-Lite interactive graphics for line, station, and weather patterns</li>
+          <li>Processed multi-year ridership datasets</li>
+          <li>Computed rolling trends + seasonal normalization</li>
+          <li>Matched Red Sox schedules to station traffic</li>
+          <li>Designed Matplotlib visuals with annotations</li>
+          <li>Built Vega-Lite interactive dashboards</li>
         </ul>
       </section>
 
-      <!-- INSIGHTS -->
       <section>
         <h2>Key Insights</h2>
         <ul>
-          <li>Ridership plummeted by more than 80 percent during early 2020</li>
-          <li>System recovery plateaued at around 70–80 percent of pre-pandemic levels by 2024</li>
-          <li>Red Sox home games boosted Kenmore Station entries by 20–45 percent</li>
-          <li>Red and Orange Lines carry the majority of system throughput</li>
-          <li>Peak-hour demand is flatter post-pandemic, reflecting hybrid work adoption</li>
+          <li>Ridership dropped over 80 percent in March 2020</li>
+          <li>Recovery plateaued at 70–80 percent of baseline</li>
+          <li>Event-driven spikes significantly shape demand</li>
+          <li>Red and Orange Lines carry system throughput</li>
+          <li>Peak-hour ridership is flatter post-pandemic</li>
         </ul>
       </section>
-
-      <!-- LEARNING -->
-      <section>
-        <h2>What I Learned</h2>
-        <p>
-          This project strengthened my ability to structure large datasets, translate quantitative patterns into 
-          clear narratives, and design visuals that reveal meaningful behavior. It helped me understand how 
-          data-driven insights support transportation planning, product thinking, and operational decision-making.
-        </p>
-      </section>
     </article>
+
   </main>
 
   <footer class="site-footer">
