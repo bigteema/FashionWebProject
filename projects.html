@@ -13,13 +13,16 @@
     <nav class="nav wrap">
       <a href="index.html" class="brand">
         <svg viewBox="0 0 220 60">
-          <path d="M10 30 Q40 5 70 30 T130 30 Q160 55 200 30" stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <path d="M10 30 Q40 5 70 30 T130 30 Q160 55 200 30"
+                stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
           <text x="22" y="40" font-size="26" font-family="cursive" fill="currentColor">Tima</text>
         </svg>
       </a>
+
       <div class="nav-links">
         <a href="index.html">Home</a>
         <a href="projects.html" aria-current="page">Projects</a>
+        <a href="mbta-project.html">MBTA Case Study</a>
         <a href="archive-guide.html">Archive Guide</a>
         <a href="curations.html">Curations</a>
         <a href="index.html#contact">Contact</a>
@@ -34,49 +37,59 @@
       <p>Work that combines data analysis, system design, and visual storytelling.</p>
     </section>
 
-    <!-- PROJECT 1 -->
+    <!-- NEW MBTA PROJECT CARD -->
+    <section class="card">
+      <h2>MBTA Ridership Analysis (2018–2025)</h2>
+      <p>
+        A multi-layered exploration of Boston’s transit system using Python, Matplotlib,
+        and Vega-Lite. I analyzed systemwide recovery patterns, event-driven demand spikes,
+        and line-level variation while building interactive dashboards and visual tools.
+      </p>
+      <ul>
+        <li>6+ years of ridership across 120+ stations</li>
+        <li>Pandemic-phase recovery visualized with annotated events</li>
+        <li>Red Sox games boosted Kenmore entries by 20–45 percent</li>
+        <li>Interactive Vega-Lite dashboards for station and line patterns</li>
+      </ul>
+      <p>
+        <a href="mbta-project.html" style="color: var(--lavender);">View full case study →</a>
+      </p>
+    </section>
+
+    <!-- EXISTING PROJECTS -->
     <section class="card">
       <h2>Client Sentiment Analysis Framework</h2>
       <p>
         A modular NLP workflow built to analyze mood shifts in financial news and
-        user discussions across Bloomberg, Reuters, Reddit, and X. I used custom token
-        filters, sentiment scoring, and cross-platform comparisons to visualize
-        how macroeconomic events influence public tone.
+        user discussions across Bloomberg, Reuters, Reddit, and X.
       </p>
       <ul>
-        <li>94 percent parsing accuracy through domain-specific text rules</li>
+        <li>94 percent parsing accuracy through domain-specific rules</li>
         <li>Tracked spikes in negative sentiment during Federal Reserve announcements</li>
         <li>Built 15+ visualizations comparing platform trends</li>
       </ul>
     </section>
 
-    <!-- PROJECT 2 -->
     <section class="card">
       <h2>Portfolio Stress Testing + Risk Simulation</h2>
       <p>
-        A Python-based tool that simulates how client portfolios react to interest rate
-        shocks, inflation surges, and market downturns. I modeled volatility shifts across
-        multiple asset classes and visualized performance under stress.
+        A Python-based tool that simulates how portfolios react to macroeconomic shocks.
       </p>
       <ul>
-        <li>Modeled 5 client risk profiles under real macroeconomic conditions</li>
+        <li>Modeled 5 client risk profiles</li>
         <li>85 percent accuracy in value projections</li>
         <li>Generated dashboards showing drawdowns and volatility changes</li>
       </ul>
     </section>
 
-    <!-- PROJECT 3 -->
     <section class="card">
       <h2>Rebalancing + Risk Profiling Tool</h2>
       <p>
-        Automated rebalancing logic for discretionary portfolios, triggering adjustments
-        whenever weights drifted 5 percent from targets. Built simulations across 12 market
-        conditions and visualized risk exposure shifts.
+        Automated rebalancing logic triggered when weights drifted from targets.
       </p>
       <ul>
-        <li>Automated reallocation workflow across three asset classes</li>
-        <li>Created performance charts for Sharpe ratios and risk transitions</li>
-        <li>Combined analytical clarity with visual readability</li>
+        <li>Automated workflows across three asset classes</li>
+        <li>Visualized Sharpe ratios and risk transitions</li>
       </ul>
     </section>
 
@@ -86,6 +99,8 @@
     <p>&copy; <span id="year"></span> Tima. All rights reserved.</p>
   </footer>
 
-  <script>document.getElementById('year').textContent = new Date().getFullYear();</script>
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
