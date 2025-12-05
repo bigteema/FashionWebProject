@@ -61,16 +61,16 @@ body {
   padding: 1rem 2rem;
 }
 
-/* cursive SVG logo */
 .brand {
   display: flex;
   align-items: center;
 }
 
 .brand svg {
-  height: 34px;
+  height: 38px;
   width: auto;
   fill: var(--lavender);
+  color: var(--lavender);
 }
 
 .nav-links a {
@@ -136,6 +136,21 @@ h1, h2, h3 {
   color: var(--text);
 }
 
+.tags {
+  margin-top: 1rem;
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.tags span {
+  padding: 0.35rem 0.75rem;
+  background-color: var(--muted);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  color: var(--lavender-soft);
+}
+
 /* ===========================
    GALLERY
    =========================== */
@@ -185,6 +200,7 @@ h1, h2, h3 {
 
 ul {
   list-style: disc inside;
+  margin: 0.8rem 0;
 }
 
 li {
@@ -211,6 +227,32 @@ li {
   color: var(--lavender-soft);
   background-color: var(--card);
   border-top: 1px solid rgba(185, 167, 255, 0.12);
+}
+
+/* ===========================
+   PROJECT PAGE STYLING
+   =========================== */
+
+.project-page section {
+  margin-bottom: 2.8rem;
+}
+
+.project-img {
+  width: 100%;
+  height: auto;
+  border-radius: 12px;
+  margin-top: 1.2rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 4px 18px rgba(185, 167, 255, 0.18);
+}
+
+.project-embed {
+  width: 100%;
+  border: none;
+  margin-top: 1.2rem;
+  border-radius: 12px;
+  background-color: var(--muted);
+  box-shadow: 0 4px 18px rgba(185, 167, 255, 0.18);
 }
 
 /* ===========================
