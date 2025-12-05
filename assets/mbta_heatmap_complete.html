@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTA Time-of-Day Ridership Heatmap</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        #container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        #controls {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        select {
+            padding: 8px 15px;
+            font-size: 14px;
+            border: 2px solid #ddd;
+            border-radius: 4px;
+            margin: 0 10px;
+            cursor: pointer;
+        }
+        .cell {
+            stroke: white;
+            stroke-width: 2px;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .cell:hover {
+            stroke: #333;
+            stroke-width: 3px;
+            opacity: 1 !important;
+        }
+        .cell.dimmed {
+            opacity: 0.2;
+        }
+        .station-label, .time-label {
+            font-size: 12px;
+            fill: #333;
+            cursor: pointer;
+        }
+        .station-label:hover, .time-label:hover {
+            fill: #0066cc;
+            font-weight: bold;
+        }
+        #tooltip {
+            position: absolute;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            border-radius: 4px;
+            pointer-events: none;
+            opacity: 0;
+            font-size: 12px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <h1>MBTA Ridership Patterns by Time of Day</h1>
+        <p class="subtitle">Interactive heatmap showing when people use different stations (Fall 2019)</p>
+
+        <div id="controls">
+            <label for="lineFilter">Filter by Line:</label>
+            <select id="lineFilter"><option value="all">All Lines</option></select>
+
+            <label for="dayFilter">Day Type:</label>
+            <select id="dayFilter">
+                <option value="weekday">Weekday</option>
+                <option value="saturday">Saturday</option>
+                <option value="sunday">Sunday</option>
+            </select>
+        </div>
+
+        <div id="heatmap"></div>
+        <div id="tooltip"></div>
+
+        <div style="margin-top: 30px; padding: 20px; background: #f9f9f9; border-radius: 4px;">
+            <h3>How to use this visualization:</h3>
+            <ul>
+                <li><strong>Hover</strong> over cells for exact ridership numbers</li>
+                <li><strong>Click</strong> station names or time labels to highlight rows/columns</li>
+                <li><strong>Use dropdowns</strong> to filter by line and day type</li>
+                <li><strong>Note:</strong> Weekend data shows only "Off Peak" because MBTA reports weekend ridership as aggregate</li>
+            </ul>
+            <h3>Key Insights:</h3>
+            <ul>
+                <li>AM/PM peaks show highest ridership (darker colors)</li>
+                <li>Downtown stations busiest during commute hours</li>
+                <li>College stations (Harvard, Kendall/MIT) have strong midday activity</li>
+                <li>Weekend patterns more evenly distributed throughout the day</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        const data = [{"station": "Airport", "route": "Blue Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 1048}, {"station": "Airport", "route": "Blue Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 430}, {"station": "Airport", "route": "Blue Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1046}, {"station": "Airport", "route": "Blue Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 623}, {"station": "Airport", "route": "Blue Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 1340}, {"station": "Airport", "route": "Blue Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1257}, {"station": "Airport", "route": "Blue Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 126}, {"station": "Airport", "route": "Blue Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 5503}, {"station": "Airport", "route": "Blue Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 4779}, {"station": "Airport", "route": "Blue Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 1435}, {"station": "Airport", "route": "Blue Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 205}, {"station": "Alewife", "route": "Red Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 2998}, {"station": "Alewife", "route": "Red Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 648}, {"station": "Alewife", "route": "Red Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1494}, {"station": "Alewife", "route": "Red Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 314}, {"station": "Alewife", "route": "Red Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 1828}, {"station": "Alewife", "route": "Red Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1234}, {"station": "Alewife", "route": "Red Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 17}, {"station": "Alewife", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 4424}, {"station": "Alewife", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 3418}, {"station": "Alewife", "route": "Red Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 3545}, {"station": "Alewife", "route": "Red Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 102}, {"station": "Arlington", "route": "Green Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 1707}, {"station": "Arlington", "route": "Green Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 275}, {"station": "Arlington", "route": "Green Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1147}, {"station": "Arlington", "route": "Green Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 311}, {"station": "Arlington", "route": "Green Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 1755}, {"station": "Arlington", "route": "Green Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1162}, {"station": "Arlington", "route": "Green Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 44}, {"station": "Arlington", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 5072}, {"station": "Arlington", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 3851}, {"station": "Arlington", "route": "Green Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 2292}, {"station": "Arlington", "route": "Green Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 72}, {"station": "Back Bay", "route": "Orange Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 3978}, {"station": "Back Bay", "route": "Orange Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 742}, {"station": "Back Bay", "route": "Orange Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1869}, {"station": "Back Bay", "route": "Orange Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 468}, {"station": "Back Bay", "route": "Orange Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 2863}, {"station": "Back Bay", "route": "Orange Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 2031}, {"station": "Back Bay", "route": "Orange Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 71}, {"station": "Back Bay", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 6313}, {"station": "Back Bay", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 4486}, {"station": "Back Bay", "route": "Orange Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 4248}, {"station": "Back Bay", "route": "Orange Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 133}, {"station": "Boylston", "route": "Green Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 947}, {"station": "Boylston", "route": "Green Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 194}, {"station": "Boylston", "route": "Green Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1373}, {"station": "Boylston", "route": "Green Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 464}, {"station": "Boylston", "route": "Green Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 1674}, {"station": "Boylston", "route": "Green Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1115}, {"station": "Boylston", "route": "Green Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 77}, {"station": "Boylston", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 6606}, {"station": "Boylston", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 5127}, {"station": "Boylston", "route": "Green Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 1741}, {"station": "Boylston", "route": "Green Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 64}, {"station": "Central", "route": "Red Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 3174}, {"station": "Central", "route": "Red Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 529}, {"station": "Central", "route": "Red Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 2632}, {"station": "Central", "route": "Red Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 593}, {"station": "Central", "route": "Red Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 3124}, {"station": "Central", "route": "Red Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1894}, {"station": "Central", "route": "Red Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 87}, {"station": "Central", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 7933}, {"station": "Central", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 7161}, {"station": "Central", "route": "Red Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 4130}, {"station": "Central", "route": "Red Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 134}, {"station": "Copley", "route": "Green Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 2364}, {"station": "Copley", "route": "Green Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 357}, {"station": "Copley", "route": "Green Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 2462}, {"station": "Copley", "route": "Green Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 580}, {"station": "Copley", "route": "Green Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 3072}, {"station": "Copley", "route": "Green Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 2282}, {"station": "Copley", "route": "Green Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 79}, {"station": "Copley", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 11161}, {"station": "Copley", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 8298}, {"station": "Copley", "route": "Green Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 3961}, {"station": "Copley", "route": "Green Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 106}, {"station": "Davis", "route": "Red Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 2842}, {"station": "Davis", "route": "Red Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 365}, {"station": "Davis", "route": "Red Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 2086}, {"station": "Davis", "route": "Red Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 466}, {"station": "Davis", "route": "Red Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 2170}, {"station": "Davis", "route": "Red Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1165}, {"station": "Davis", "route": "Red Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 73}, {"station": "Davis", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 5952}, {"station": "Davis", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 4814}, {"station": "Davis", "route": "Red Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 3335}, {"station": "Davis", "route": "Red Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 82}, {"station": "Downtown Crossing", "route": "Orange Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 6223}, {"station": "Downtown Crossing", "route": "Orange Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 1511}, {"station": "Downtown Crossing", "route": "Orange Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 3915}, {"station": "Downtown Crossing", "route": "Orange Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 958}, {"station": "Downtown Crossing", "route": "Orange Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 6275}, {"station": "Downtown Crossing", "route": "Orange Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 4659}, {"station": "Downtown Crossing", "route": "Orange Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 129}, {"station": "Downtown Crossing", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 11968}, {"station": "Downtown Crossing", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 9298}, {"station": "Downtown Crossing", "route": "Orange Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 7795}, {"station": "Downtown Crossing", "route": "Orange Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 370}, {"station": "Downtown Crossing", "route": "Red Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 6987}, {"station": "Downtown Crossing", "route": "Red Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 1652}, {"station": "Downtown Crossing", "route": "Red Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 4283}, {"station": "Downtown Crossing", "route": "Red Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 995}, {"station": "Downtown Crossing", "route": "Red Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 6696}, {"station": "Downtown Crossing", "route": "Red Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 4744}, {"station": "Downtown Crossing", "route": "Red Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 124}, {"station": "Downtown Crossing", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 12920}, {"station": "Downtown Crossing", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 10625}, {"station": "Downtown Crossing", "route": "Red Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 8525}, {"station": "Downtown Crossing", "route": "Red Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 400}, {"station": "Forest Hills", "route": "Orange Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 2764}, {"station": "Forest Hills", "route": "Orange Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 1102}, {"station": "Forest Hills", "route": "Orange Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1480}, {"station": "Forest Hills", "route": "Orange Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 381}, {"station": "Forest Hills", "route": "Orange Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 2328}, {"station": "Forest Hills", "route": "Orange Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 2023}, {"station": "Forest Hills", "route": "Orange Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 37}, {"station": "Forest Hills", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 2424}, {"station": "Forest Hills", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 1680}, {"station": "Forest Hills", "route": "Orange Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 2967}, {"station": "Forest Hills", "route": "Orange Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 65}, {"station": "Government Center", "route": "Blue Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 2015}, {"station": "Government Center", "route": "Blue Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 688}, {"station": "Government Center", "route": "Blue Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1775}, {"station": "Government Center", "route": "Blue Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 1097}, {"station": "Government Center", "route": "Blue Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 2120}, {"station": "Government Center", "route": "Blue Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1988}, {"station": "Government Center", "route": "Blue Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 234}, {"station": "Government Center", "route": "Blue Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 9783}, {"station": "Government Center", "route": "Blue Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 7519}, {"station": "Government Center", "route": "Blue Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 2756}, {"station": "Government Center", "route": "Blue Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 395}, {"station": "Government Center", "route": "Green Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 2566}, {"station": "Government Center", "route": "Green Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 760}, {"station": "Government Center", "route": "Green Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 2256}, {"station": "Government Center", "route": "Green Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 1116}, {"station": "Government Center", "route": "Green Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 2939}, {"station": "Government Center", "route": "Green Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 2506}, {"station": "Government Center", "route": "Green Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 200}, {"station": "Government Center", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 12677}, {"station": "Government Center", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 9338}, {"station": "Government Center", "route": "Green Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 3756}, {"station": "Government Center", "route": "Green Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 273}, {"station": "Harvard", "route": "Red Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 3193}, {"station": "Harvard", "route": "Red Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 523}, {"station": "Harvard", "route": "Red Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 2736}, {"station": "Harvard", "route": "Red Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 672}, {"station": "Harvard", "route": "Red Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 3857}, {"station": "Harvard", "route": "Red Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 2563}, {"station": "Harvard", "route": "Red Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 89}, {"station": "Harvard", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 11023}, {"station": "Harvard", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 9241}, {"station": "Harvard", "route": "Red Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 4325}, {"station": "Harvard", "route": "Red Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 156}, {"station": "Haymarket", "route": "Green Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 970}, {"station": "Haymarket", "route": "Green Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 293}, {"station": "Haymarket", "route": "Green Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1055}, {"station": "Haymarket", "route": "Green Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 373}, {"station": "Haymarket", "route": "Green Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 1329}, {"station": "Haymarket", "route": "Green Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1026}, {"station": "Haymarket", "route": "Green Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 54}, {"station": "Haymarket", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 6133}, {"station": "Haymarket", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 3709}, {"station": "Haymarket", "route": "Green Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 1602}, {"station": "Haymarket", "route": "Green Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 157}, {"station": "Haymarket", "route": "Orange Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 1465}, {"station": "Haymarket", "route": "Orange Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 438}, {"station": "Haymarket", "route": "Orange Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1127}, {"station": "Haymarket", "route": "Orange Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 375}, {"station": "Haymarket", "route": "Orange Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 1805}, {"station": "Haymarket", "route": "Orange Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1340}, {"station": "Haymarket", "route": "Orange Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 52}, {"station": "Haymarket", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 5778}, {"station": "Haymarket", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 3479}, {"station": "Haymarket", "route": "Orange Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 2009}, {"station": "Haymarket", "route": "Orange Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 120}, {"station": "Hynes Convention Center", "route": "Green Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 1059}, {"station": "Hynes Convention Center", "route": "Green Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 183}, {"station": "Hynes Convention Center", "route": "Green Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1594}, {"station": "Hynes Convention Center", "route": "Green Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 428}, {"station": "Hynes Convention Center", "route": "Green Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 1676}, {"station": "Hynes Convention Center", "route": "Green Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1197}, {"station": "Hynes Convention Center", "route": "Green Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 70}, {"station": "Hynes Convention Center", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 7180}, {"station": "Hynes Convention Center", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 5692}, {"station": "Hynes Convention Center", "route": "Green Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 2045}, {"station": "Hynes Convention Center", "route": "Green Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 50}, {"station": "JFK/Umass", "route": "Red Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 2164}, {"station": "JFK/Umass", "route": "Red Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 437}, {"station": "JFK/Umass", "route": "Red Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1385}, {"station": "JFK/Umass", "route": "Red Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 280}, {"station": "JFK/Umass", "route": "Red Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 2576}, {"station": "JFK/Umass", "route": "Red Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1800}, {"station": "JFK/Umass", "route": "Red Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 42}, {"station": "JFK/Umass", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 3767}, {"station": "JFK/Umass", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 3001}, {"station": "JFK/Umass", "route": "Red Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 2326}, {"station": "JFK/Umass", "route": "Red Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 89}, {"station": "Kendall/MIT", "route": "Red Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 4066}, {"station": "Kendall/MIT", "route": "Red Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 717}, {"station": "Kendall/MIT", "route": "Red Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 2141}, {"station": "Kendall/MIT", "route": "Red Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 378}, {"station": "Kendall/MIT", "route": "Red Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 3568}, {"station": "Kendall/MIT", "route": "Red Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 2021}, {"station": "Kendall/MIT", "route": "Red Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 56}, {"station": "Kendall/MIT", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 4151}, {"station": "Kendall/MIT", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 3705}, {"station": "Kendall/MIT", "route": "Red Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 4901}, {"station": "Kendall/MIT", "route": "Red Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 159}, {"station": "Kenmore", "route": "Green Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 1426}, {"station": "Kenmore", "route": "Green Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 275}, {"station": "Kenmore", "route": "Green Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1836}, {"station": "Kenmore", "route": "Green Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 815}, {"station": "Kenmore", "route": "Green Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 1977}, {"station": "Kenmore", "route": "Green Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1444}, {"station": "Kenmore", "route": "Green Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 90}, {"station": "Kenmore", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 9114}, {"station": "Kenmore", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 7481}, {"station": "Kenmore", "route": "Green Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 2585}, {"station": "Kenmore", "route": "Green Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 70}, {"station": "Malden Center", "route": "Orange Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 2598}, {"station": "Malden Center", "route": "Orange Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 602}, {"station": "Malden Center", "route": "Orange Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1613}, {"station": "Malden Center", "route": "Orange Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 383}, {"station": "Malden Center", "route": "Orange Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 2588}, {"station": "Malden Center", "route": "Orange Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1556}, {"station": "Malden Center", "route": "Orange Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 64}, {"station": "Malden Center", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 6021}, {"station": "Malden Center", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 4573}, {"station": "Malden Center", "route": "Orange Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 2968}, {"station": "Malden Center", "route": "Orange Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 229}, {"station": "Maverick", "route": "Blue Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 1945}, {"station": "Maverick", "route": "Blue Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 685}, {"station": "Maverick", "route": "Blue Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1590}, {"station": "Maverick", "route": "Blue Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 798}, {"station": "Maverick", "route": "Blue Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 2160}, {"station": "Maverick", "route": "Blue Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 2014}, {"station": "Maverick", "route": "Blue Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 171}, {"station": "Maverick", "route": "Blue Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 8274}, {"station": "Maverick", "route": "Blue Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 6328}, {"station": "Maverick", "route": "Blue Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 2521}, {"station": "Maverick", "route": "Blue Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 290}, {"station": "North Station", "route": "Green Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 1579}, {"station": "North Station", "route": "Green Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 287}, {"station": "North Station", "route": "Green Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1055}, {"station": "North Station", "route": "Green Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 455}, {"station": "North Station", "route": "Green Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 1366}, {"station": "North Station", "route": "Green Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 921}, {"station": "North Station", "route": "Green Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 41}, {"station": "North Station", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 4434}, {"station": "North Station", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 3310}, {"station": "North Station", "route": "Green Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 2007}, {"station": "North Station", "route": "Green Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 54}, {"station": "North Station", "route": "Orange Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 2745}, {"station": "North Station", "route": "Orange Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 644}, {"station": "North Station", "route": "Orange Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1380}, {"station": "North Station", "route": "Orange Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 547}, {"station": "North Station", "route": "Orange Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 1934}, {"station": "North Station", "route": "Orange Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1355}, {"station": "North Station", "route": "Orange Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 55}, {"station": "North Station", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 4506}, {"station": "North Station", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 3539}, {"station": "North Station", "route": "Orange Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 3223}, {"station": "North Station", "route": "Orange Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 133}, {"station": "Park Street", "route": "Green Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 5357}, {"station": "Park Street", "route": "Green Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 1149}, {"station": "Park Street", "route": "Green Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 5011}, {"station": "Park Street", "route": "Green Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 1557}, {"station": "Park Street", "route": "Green Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 6388}, {"station": "Park Street", "route": "Green Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 4621}, {"station": "Park Street", "route": "Green Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 214}, {"station": "Park Street", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 21155}, {"station": "Park Street", "route": "Green Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 16293}, {"station": "Park Street", "route": "Green Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 8011}, {"station": "Park Street", "route": "Green Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 344}, {"station": "Park Street", "route": "Red Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 5952}, {"station": "Park Street", "route": "Red Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 1373}, {"station": "Park Street", "route": "Red Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 5077}, {"station": "Park Street", "route": "Red Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 1571}, {"station": "Park Street", "route": "Red Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 6096}, {"station": "Park Street", "route": "Red Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 4385}, {"station": "Park Street", "route": "Red Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 216}, {"station": "Park Street", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 19522}, {"station": "Park Street", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 15278}, {"station": "Park Street", "route": "Red Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 8423}, {"station": "Park Street", "route": "Red Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 367}, {"station": "Ruggles", "route": "Orange Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 1708}, {"station": "Ruggles", "route": "Orange Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 599}, {"station": "Ruggles", "route": "Orange Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1362}, {"station": "Ruggles", "route": "Orange Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 349}, {"station": "Ruggles", "route": "Orange Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 2042}, {"station": "Ruggles", "route": "Orange Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1804}, {"station": "Ruggles", "route": "Orange Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 60}, {"station": "Ruggles", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 5827}, {"station": "Ruggles", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 4600}, {"station": "Ruggles", "route": "Orange Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 2548}, {"station": "Ruggles", "route": "Orange Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 127}, {"station": "South Station", "route": "Red Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 6999}, {"station": "South Station", "route": "Red Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 1272}, {"station": "South Station", "route": "Red Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 3061}, {"station": "South Station", "route": "Red Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 667}, {"station": "South Station", "route": "Red Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 4395}, {"station": "South Station", "route": "Red Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 2915}, {"station": "South Station", "route": "Red Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 101}, {"station": "South Station", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 7871}, {"station": "South Station", "route": "Red Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 7172}, {"station": "South Station", "route": "Red Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 7623}, {"station": "South Station", "route": "Red Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 235}, {"station": "State Street", "route": "Blue Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 3008}, {"station": "State Street", "route": "Blue Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 1127}, {"station": "State Street", "route": "Blue Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1787}, {"station": "State Street", "route": "Blue Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 743}, {"station": "State Street", "route": "Blue Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 2656}, {"station": "State Street", "route": "Blue Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 2451}, {"station": "State Street", "route": "Blue Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 144}, {"station": "State Street", "route": "Blue Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 8136}, {"station": "State Street", "route": "Blue Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 6387}, {"station": "State Street", "route": "Blue Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 3549}, {"station": "State Street", "route": "Blue Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 485}, {"station": "State Street", "route": "Orange Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 3655}, {"station": "State Street", "route": "Orange Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 1104}, {"station": "State Street", "route": "Orange Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1878}, {"station": "State Street", "route": "Orange Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 634}, {"station": "State Street", "route": "Orange Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 3180}, {"station": "State Street", "route": "Orange Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 2620}, {"station": "State Street", "route": "Orange Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 116}, {"station": "State Street", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 7018}, {"station": "State Street", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 5519}, {"station": "State Street", "route": "Orange Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 4276}, {"station": "State Street", "route": "Orange Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 271}, {"station": "Sullivan Square", "route": "Orange Line", "time_period": "AM_PEAK", "day_type": "weekday", "ridership": 1648}, {"station": "Sullivan Square", "route": "Orange Line", "time_period": "EARLY_AM", "day_type": "weekday", "ridership": 528}, {"station": "Sullivan Square", "route": "Orange Line", "time_period": "EVENING", "day_type": "weekday", "ridership": 1137}, {"station": "Sullivan Square", "route": "Orange Line", "time_period": "LATE_EVENING", "day_type": "weekday", "ridership": 433}, {"station": "Sullivan Square", "route": "Orange Line", "time_period": "MIDDAY_BASE", "day_type": "weekday", "ridership": 1594}, {"station": "Sullivan Square", "route": "Orange Line", "time_period": "MIDDAY_SCHOOL", "day_type": "weekday", "ridership": 1218}, {"station": "Sullivan Square", "route": "Orange Line", "time_period": "NIGHT", "day_type": "weekday", "ridership": 71}, {"station": "Sullivan Square", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "saturday", "ridership": 4926}, {"station": "Sullivan Square", "route": "Orange Line", "time_period": "OFF_PEAK", "day_type": "sunday", "ridership": 3587}, {"station": "Sullivan Square", "route": "Orange Line", "time_period": "PM_PEAK", "day_type": "weekday", "ridership": 1986}, {"station": "Sullivan Square", "route": "Orange Line", "time_period": "VERY_EARLY_MORNING", "day_type": "weekday", "ridership": 249}];
+
+        const margin = {top: 100, right: 40, bottom: 70, left: 180};
+        const cellWidth = 80;
+        const cellHeight = 25;
+
+        const timeOrder = ["VERY_EARLY_MORNING", "EARLY_AM", "AM_PEAK", "MIDDAY_SCHOOL",
+                          "MIDDAY_BASE", "PM_PEAK", "EVENING", "LATE_EVENING", "NIGHT", "OFF_PEAK"];
+
+        const timeLabels = {
+            "VERY_EARLY_MORNING": "Very Early", "EARLY_AM": "Early AM", "AM_PEAK": "AM Peak",
+            "MIDDAY_SCHOOL": "Midday School", "MIDDAY_BASE": "Midday Base", "PM_PEAK": "PM Peak",
+            "EVENING": "Evening", "LATE_EVENING": "Late Evening", "NIGHT": "Night", "OFF_PEAK": "Off Peak"
+        };
+
+        let selectedStation = null;
+        let selectedTime = null;
+
+        const lines = [...new Set(data.map(d => d.route))].filter(d => d).sort();
+        const lineSelect = d3.select("#lineFilter");
+        lines.forEach(line => {
+            lineSelect.append("option").attr("value", line).text(line);
+        });
+
+        updateVisualization("all", "weekday");
+
+        d3.select("#lineFilter").on("change", function() {
+            updateVisualization(this.value, d3.select("#dayFilter").property("value"));
+        });
+
+        d3.select("#dayFilter").on("change", function() {
+            updateVisualization(d3.select("#lineFilter").property("value"), this.value);
+        });
+
+        function updateVisualization(lineFilter, dayFilter) {
+            const currentData = data.filter(d => {
+                const lineMatch = lineFilter === "all" || d.route === lineFilter;
+                const dayMatch = d.day_type === dayFilter;
+                return lineMatch && dayMatch;
+            });
+
+            const nested = d3.rollup(currentData, v => d3.mean(v, d => d.ridership),
+                                    d => d.station, d => d.time_period);
+
+            const stationTotals = d3.rollup(currentData, v => d3.sum(v, d => d.ridership), d => d.station);
+            const topStations = Array.from(stationTotals).sort((a, b) => b[1] - a[1]).slice(0, 25).map(d => d[0]);
+
+            const matrixData = [];
+            topStations.forEach(station => {
+                timeOrder.forEach(time => {
+                    const stationData = nested.get(station);
+                    if (stationData && stationData.has(time)) {
+                        matrixData.push({station: station, time: time, value: stationData.get(time)});
+                    }
+                });
+            });
+
+            d3.select("#heatmap").selectAll("*").remove();
+
+            const width = timeOrder.length * cellWidth + margin.left + margin.right;
+            const height = topStations.length * cellHeight + margin.top + margin.bottom;
+
+            const svg = d3.select("#heatmap").append("svg").attr("width", width).attr("height", height);
+            const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
+
+            const maxValue = d3.max(matrixData, d => d.value);
+            const colorScale = d3.scaleSequential().domain([0, maxValue]).interpolator(d3.interpolateYlOrRd);
+
+            g.selectAll(".cell").data(matrixData).enter().append("rect")
+                .attr("class", "cell")
+                .attr("x", d => timeOrder.indexOf(d.time) * cellWidth)
+                .attr("y", d => topStations.indexOf(d.station) * cellHeight)
+                .attr("width", cellWidth).attr("height", cellHeight)
+                .attr("fill", d => d.value > 0 ? colorScale(d.value) : "#f0f0f0")
+                .on("mouseover", showTooltip).on("mouseout", hideTooltip).on("click", handleCellClick);
+
+            g.selectAll(".station-label").data(topStations).enter().append("text")
+                .attr("class", "station-label")
+                .attr("x", -10).attr("y", (d, i) => i * cellHeight + cellHeight / 2)
+                .attr("dy", "0.35em").attr("text-anchor", "end")
+                .text(d => d).on("click", (e, d) => highlightStation(d));
+
+            g.selectAll(".time-label").data(timeOrder).enter().append("text")
+                .attr("class", "time-label")
+                .attr("x", (d, i) => i * cellWidth + cellWidth / 2).attr("y", -10)
+                .attr("transform", (d, i) => `rotate(-45, ${i * cellWidth + cellWidth / 2}, -10)`)
+                .text(d => timeLabels[d] || d).on("click", (e, d) => highlightTime(d));
+
+            const legendWidth = 300, legendHeight = 20;
+            const legend = svg.append("g").attr("transform", `translate(${margin.left}, ${height - 50})`);
+            const gradient = svg.append("defs").append("linearGradient").attr("id", "legend-gradient");
+            gradient.selectAll("stop").data(d3.range(0, 1.1, 0.1)).enter().append("stop")
+                .attr("offset", d => d).attr("stop-color", d => colorScale(d * maxValue));
+            legend.append("rect").attr("width", legendWidth).attr("height", legendHeight).style("fill", "url(#legend-gradient)");
+            legend.append("text").attr("x", 0).attr("y", legendHeight + 15).text("0").style("font-size", "11px");
+            legend.append("text").attr("x", legendWidth).attr("y", legendHeight + 15).attr("text-anchor", "end")
+                .text(Math.round(maxValue).toLocaleString()).style("font-size", "11px");
+            legend.append("text").attr("x", legendWidth / 2).attr("y", -5).attr("text-anchor", "middle")
+                .text("Average Ridership (Boardings + Alightings)").style("font-size", "12px").style("font-weight", "bold");
+        }
+
+        function showTooltip(event, d) {
+            const tooltip = d3.select("#tooltip");
+            tooltip.transition().duration(200).style("opacity", 1);
+            tooltip.html(`<strong>${d.station}</strong><br/>Time: ${timeLabels[d.time] || d.time}<br/>Ridership: ${Math.round(d.value).toLocaleString()}`)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 28) + "px");
+        }
+
+        function hideTooltip() {
+            d3.select("#tooltip").transition().duration(200).style("opacity", 0);
+        }
+
+        function handleCellClick() {
+            selectedStation = null;
+            selectedTime = null;
+            d3.selectAll(".cell").classed("dimmed", false);
+        }
+
+        function highlightStation(station) {
+            if (selectedStation === station) {
+                selectedStation = null;
+                d3.selectAll(".cell").classed("dimmed", false);
+            } else {
+                selectedStation = station;
+                selectedTime = null;
+                d3.selectAll(".cell").classed("dimmed", d => d.station !== station);
+            }
+        }
+
+        function highlightTime(time) {
+            if (selectedTime === time) {
+                selectedTime = null;
+                d3.selectAll(".cell").classed("dimmed", false);
+            } else {
+                selectedTime = time;
+                selectedStation = null;
+                d3.selectAll(".cell").classed("dimmed", d => d.time !== time);
+            }
+        }
+    </script>
+</body>
+</html>
