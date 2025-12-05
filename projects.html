@@ -11,11 +11,19 @@
 <body>
   <header class="site-header">
     <nav class="nav wrap">
+
+      <!-- BRAND LOGO -->
       <a href="index.html" class="brand">
         <svg viewBox="0 0 220 60">
           <path d="M10 30 Q40 5 70 30 T130 30 Q160 55 200 30"
-                stroke="currentColor" stroke-width="4" fill="none" stroke-linecap="round"/>
-          <text x="22" y="40" font-size="26" font-family="cursive" fill="currentColor">Tima</text>
+                stroke="currentColor"
+                stroke-width="4"
+                fill="none"
+                stroke-linecap="round"/>
+          <text x="22" y="40" 
+                font-size="26" 
+                font-family="cursive" 
+                fill="currentColor">Tima</text>
         </svg>
       </a>
 
@@ -27,70 +35,142 @@
         <a href="curations.html">Curations</a>
         <a href="index.html#contact">Contact</a>
       </div>
+
     </nav>
   </header>
 
   <main class="container">
-
+    
     <section class="card">
       <h1>Projects</h1>
-      <p>Work that combines data analysis, system design, and visual storytelling.</p>
+      <p>
+        Work that blends data analysis, system design, research, and visual storytelling — 
+        shaped by my interests in fashion, economics, and creative technology.
+      </p>
     </section>
 
-    <!-- NEW MBTA PROJECT CARD -->
+    <!-- STYLE FOR TAGS -->
+    <style>
+      .tag-row {
+        margin-top: 0.8rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+      }
+      .tag {
+        padding: 0.25rem 0.65rem;
+        background-color: var(--muted);
+        color: var(--lavender-soft);
+        font-size: 0.75rem;
+        border-radius: 6px;
+        border: 1px solid rgba(185,167,255,0.18);
+      }
+    </style>
+
+    <!-- PROJECT 1 -->
+    <section class="card">
+      <h2>Client Sentiment Analysis Framework</h2>
+      <p>
+        A modular NLP system built to quantify mood shifts in financial news and online discussions.
+        I analyzed cross-platform sentiment trends across Bloomberg, Reuters, Reddit, and X to
+        understand how macroeconomic events influence public tone and investor anxiety.
+      </p>
+
+      <ul>
+        <li>Processed 50,000+ text samples using custom token filters and domain-tuned rules</li>
+        <li>Achieved 94 percent parsing accuracy after iterating on negation and stopword handling</li>
+        <li>Identified sentiment swings tied to CPI releases, unemployment reports, and Fed meetings</li>
+        <li>Built 15+ comparative visualizations showing divergence between institutional and retail sentiment</li>
+        <li>Designed a reusable pipeline structure ready for future ML classification modeling</li>
+      </ul>
+
+      <div class="tag-row">
+        <span class="tag">NLP</span>
+        <span class="tag">Python</span>
+        <span class="tag">Sentiment Analysis</span>
+        <span class="tag">Data Visualization</span>
+        <span class="tag">Financial Analytics</span>
+      </div>
+    </section>
+
+    <!-- PROJECT 2 -->
+    <section class="card">
+      <h2>Portfolio Stress Testing + Risk Simulation</h2>
+      <p>
+        A Python-based tool that models portfolio performance under interest-rate shocks,
+        inflation spikes, and recession scenarios. I evaluated risk exposure and volatility
+        shifts across multiple asset classes.
+      </p>
+
+      <ul>
+        <li>Simulated 5+ portfolio types using historical macroeconomic and volatility-regime data</li>
+        <li>Achieved 85 percent directional accuracy in projected drawdown behavior</li>
+        <li>Quantified expected loss ranges and tail-risk characteristics under stress conditions</li>
+        <li>Built dashboards visualizing Sharpe ratio changes, sector sensitivity, and rebalancing impacts</li>
+        <li>Reduced interpretation time by structuring outputs into clean decision-ready summaries</li>
+      </ul>
+
+      <div class="tag-row">
+        <span class="tag">Python</span>
+        <span class="tag">Finance</span>
+        <span class="tag">Simulation</span>
+        <span class="tag">Risk Modeling</span>
+        <span class="tag">Data Visualization</span>
+      </div>
+    </section>
+
+    <!-- PROJECT 3 -->
+    <section class="card">
+      <h2>Rebalancing + Risk Profiling Automation</h2>
+      <p>
+        A rule-based rebalancing engine built for discretionary portfolios. 
+        It monitors portfolio drift, triggers adjustments, and models allocation outcomes 
+        across 12 different market environments.
+      </p>
+
+      <ul>
+        <li>Automated rebalance triggering whenever allocations drifted 5 percent from targets</li>
+        <li>Reduced manual review load by consolidating alerts into a single workflow</li>
+        <li>Simulated risk transitions across equities, fixed income, and alternative assets</li>
+        <li>Visualized expected return, volatility, and Sharpe ratio transitions under simulated conditions</li>
+        <li>Improved clarity for non-technical users with simplified visual summaries</li>
+      </ul>
+
+      <div class="tag-row">
+        <span class="tag">Python</span>
+        <span class="tag">Automation</span>
+        <span class="tag">Portfolio Analytics</span>
+        <span class="tag">Financial Modeling</span>
+        <span class="tag">Scenario Testing</span>
+      </div>
+    </section>
+
+    <!-- PROJECT 4: MBTA -->
     <section class="card">
       <h2>MBTA Ridership Analysis (2018–2025)</h2>
       <p>
         A multi-layered exploration of Boston’s transit system using Python, Matplotlib,
-        and Vega-Lite. I analyzed systemwide recovery patterns, event-driven demand spikes,
-        and line-level variation while building interactive dashboards and visual tools.
+        Altair, and Vega-Lite. I analyzed systemwide recovery patterns, event-driven demand,
+        and line-level variation while building interactive dashboards for user exploration.
       </p>
-      <ul>
-        <li>6+ years of ridership across 120+ stations</li>
-        <li>Pandemic-phase recovery visualized with annotated events</li>
-        <li>Red Sox games boosted Kenmore entries by 20–45 percent</li>
-        <li>Interactive Vega-Lite dashboards for station and line patterns</li>
-      </ul>
-      <p>
-        <a href="mbta-project.html" style="color: var(--lavender);">View full case study →</a>
-      </p>
-    </section>
 
-    <!-- EXISTING PROJECTS -->
-    <section class="card">
-      <h2>Client Sentiment Analysis Framework</h2>
-      <p>
-        A modular NLP workflow built to analyze mood shifts in financial news and
-        user discussions across Bloomberg, Reuters, Reddit, and X.
-      </p>
       <ul>
-        <li>94 percent parsing accuracy through domain-specific rules</li>
-        <li>Tracked spikes in negative sentiment during Federal Reserve announcements</li>
-        <li>Built 15+ visualizations comparing platform trends</li>
+        <li>Analyzed 6+ years of ridership across 120+ stations</li>
+        <li>Identified pandemic-phase ridership collapse and plateau at ~70–80 percent recovery</li>
+        <li>Found that Red Sox home games increased Kenmore Station entries by 20–45 percent</li>
+        <li>Built interactive dashboards for line-level and station-level patterns</li>
+        <li>Created weather-driven demand visualizations using Vega-Lite</li>
       </ul>
-    </section>
 
-    <section class="card">
-      <h2>Portfolio Stress Testing + Risk Simulation</h2>
-      <p>
-        A Python-based tool that simulates how portfolios react to macroeconomic shocks.
-      </p>
-      <ul>
-        <li>Modeled 5 client risk profiles</li>
-        <li>85 percent accuracy in value projections</li>
-        <li>Generated dashboards showing drawdowns and volatility changes</li>
-      </ul>
-    </section>
+      <p><a href="mbta-project.html" style="color: var(--lavender);">View full case study →</a></p>
 
-    <section class="card">
-      <h2>Rebalancing + Risk Profiling Tool</h2>
-      <p>
-        Automated rebalancing logic triggered when weights drifted from targets.
-      </p>
-      <ul>
-        <li>Automated workflows across three asset classes</li>
-        <li>Visualized Sharpe ratios and risk transitions</li>
-      </ul>
+      <div class="tag-row">
+        <span class="tag">Python</span>
+        <span class="tag">Vega-Lite</span>
+        <span class="tag">Altair</span>
+        <span class="tag">Data Visualization</span>
+        <span class="tag">Urban Analytics</span>
+      </div>
     </section>
 
   </main>
@@ -102,5 +182,6 @@
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+
 </body>
 </html>
